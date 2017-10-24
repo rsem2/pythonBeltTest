@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Hello, {{ request.session.username }}! </h1>
+    <a href="/logout">Logout</a>
+
+    <!-- All your friends -->
+    <p>Here is a list of your friends</p>
+    <table>
+        <td>Alias</td>
+        <td>Action</td>
+    {% for friend in friends %}
+    <tr>
+        <td>{{ friend.alias }} </td>
+        <td>
+            <a href="/other_profile/{{ friend.id }}">View profile</a>
+            <a href="/remove_friend/{{ friend.id }}">Remove as friend</a>
+        </td>
+    </tr>
+    {% endfor %}
+    </table>
+
+    <!-- Everyone else -->
+    <p>Other users not on your friends list</p>
+    <table>
+        <td>Alias</td>
+        <td>Action</td>
+    {% for notfriend in notfriends %}
+    <tr>
+        <td><a href="/other_profile/{{ notfriend.id }}">{{ notfriend.alias }}</a></td>
+        <td>
+            <form action="/add_friend/{{request.session.userid }}/{{ notfriend.id }}">
+                <input type="submit" value="Add as friend">
+            </form>
+        </td>
+        {% endfor %}
+    </tr>
+</body>
+</html>
